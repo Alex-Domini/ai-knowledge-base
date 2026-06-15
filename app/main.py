@@ -1,6 +1,7 @@
-from fastapi import FastAPI, Depends
-from app.repositories.document_repository import DocumentRepository
-from app.core.db import get_db, engine
+from fastapi import FastAPI
+from app.core.db import engine
+
+from app.api.routes.knowledge_base import router as documents_router
 
 from contextlib import asynccontextmanager
 from app.core.base import Base
@@ -16,14 +17,4 @@ async def lifespan(app: FastAPI):
 app = FastAPI(title="AI KNOWLEDGE-BASE API", lifespan=lifespan)
 
 
-@app.get("/")
-def home_page():
-    return {"message": "Привет!"}
-
-
-@app.get("/db-check")
-async def get_document(session=Depends(get_db)):
-    repository = DocumentRepository(session)
-    result = await repository.check_connection()
-
-    return result
+app.include_router(documents_router)
