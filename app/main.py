@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from app.core.db import engine
 
-from app.api.routes.knowledge_base import router as documents_router
+from app.api.routes.documents import router as documents_router
 
 from contextlib import asynccontextmanager
 from app.core.base import Base
