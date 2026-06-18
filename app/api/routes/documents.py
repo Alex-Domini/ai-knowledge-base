@@ -6,7 +6,7 @@ from app.api.dependencies.document import get_document_service
 router = APIRouter(prefix="/documents", tags=["AI Knowledge Base"])
 
 
-@router.post("/", response_model=DocumentCreate)
+@router.post("/", response_model=DocumentRead)
 async def create_document(
     data: DocumentCreate, service: DocumentService = Depends(get_document_service)
 ):
