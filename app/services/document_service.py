@@ -14,7 +14,11 @@ class DocumentService:
 
     async def create_document(self, filename: str) -> Document:
         normalized_filename = filename.strip().lower()
+
+        if not normalized_filename:
+            raise ValueError("Filename cannot be empty")
         document = await self.repository.create(filename=normalized_filename)
+
         return document
 
     async def get_all_documents(self) -> list[Document]:
