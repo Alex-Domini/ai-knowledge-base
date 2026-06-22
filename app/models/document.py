@@ -10,6 +10,7 @@ class Document(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True, autoincrement=True)
     filename: Mapped[str] = mapped_column(String, index=True)
+    text_content: Mapped[str | None]
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         server_default=func.now(),

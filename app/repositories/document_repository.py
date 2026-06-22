@@ -7,8 +7,8 @@ class DocumentRepository:
     def __init__(self, session: AsyncSession) -> None:
         self.session = session
 
-    async def create(self, filename: str) -> Document:
-        file_obj = Document(filename=filename)
+    async def create(self, filename: str, text_content: str) -> Document:
+        file_obj = Document(filename=filename, text_content=text_content)
         self.session.add(file_obj)
         await self.session.commit()
         await self.session.refresh(file_obj)

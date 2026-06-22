@@ -18,8 +18,9 @@ class FakeDocumentRepository:
             )
         ]
 
-    async def create(self, filename: str) -> Document:
+    async def create(self, filename: str, text_content: str) -> Document:
         self.save_filename = filename
+        self.saved_some_content = text_content
         return Document(filename=filename)
 
     async def get_all_documents(self) -> list[Document]:
@@ -41,9 +42,10 @@ async def test_create_document_and_normalize():
     fake_repository = FakeDocumentRepository()
     service = DocumentService(repository=fake_repository)
 
-    await service.create_document(" ConTract.PDF ")
+    await service.create_document(" ConTract.PDF ", "Some text")
 
     assert fake_repository.save_filename == "contract.pdf"
+    assert fake_repository.saved_some_content == "Some text"
 
 
 @pytest.mark.asyncio

@@ -3,7 +3,7 @@ from app.models.document import Document
 
 
 class DocumentRepositoryProtocol(Protocol):
-    async def create(self, filename: str) -> Document: ...
+    async def create(self, filename: str, text_content: str) -> Document: ...
 
     async def get_all_documents(self) -> list[Document]: ...
 
@@ -16,12 +16,14 @@ class DocumentService:
     def __init__(self, repository: DocumentRepositoryProtocol) -> None:
         self.repository = repository
 
-    async def create_document(self, filename: str) -> Document:
+    async def create_document(self, filename: str, text_content: str) -> Document:
         normalized_filename = filename.strip().lower()
 
         if not normalized_filename:
             raise ValueError("Filename cannot be empty")
-        document = await self.repository.create(filename=normalized_filename)
+        document = await self.repository.create(
+            filename=normalized_filename, text_content=text_content
+        )
 
         return document
 

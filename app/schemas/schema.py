@@ -10,6 +10,7 @@ class DocumentCreate(BaseModel):
 class DocumentRead(BaseModel):
     id: int
     filename: str
+    text_content: str | None
     created_at: datetime
 
     model_config = ConfigDict(from_attributes=True)
