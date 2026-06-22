@@ -21,3 +21,21 @@ class DocumentRepository:
     async def check_connection(self) -> dict:
         await self.session.execute(text("SELECT 1"))
         return {"status": "database connected"}
+
+    async def get_document_by_id(self, document_id: int) -> Document | None:
+        document = await self.session.execute(
+            select(Document).where(Document.id == document_id)
+        )
+        return document.scalar_one_or_none()
+
+    async def delete_document_by_id(self, document_id: int) -> Document | None:
+        query = select(Document).where(Document.id == document_id)
+        result = await self.session.execute(query)
+        document = result.scalar_one_or_none()
+
+        if document is None:
+            return None
+
+        await self.session.delete(document)
+        await self.session.commit()
+        return document

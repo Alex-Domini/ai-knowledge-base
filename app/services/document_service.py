@@ -7,6 +7,10 @@ class DocumentRepositoryProtocol(Protocol):
 
     async def get_all_documents(self) -> list[Document]: ...
 
+    async def get_document_by_id(self, document_id: int) -> Document | None: ...
+
+    async def delete_document_by_id(self, document_id: int) -> Document | None: ...
+
 
 class DocumentService:
     def __init__(self, repository: DocumentRepositoryProtocol) -> None:
@@ -24,3 +28,11 @@ class DocumentService:
     async def get_all_documents(self) -> list[Document]:
         documents = await self.repository.get_all_documents()
         return documents
+
+    async def get_document_by_id(self, document_id: int) -> Document | None:
+        document = await self.repository.get_document_by_id(document_id)
+        return document
+
+    async def delete_document_by_id(self, document_id: int) -> Document | None:
+        document = await self.repository.delete_document_by_id(document_id)
+        return document
